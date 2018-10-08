@@ -6,25 +6,41 @@ const path = require('path');
  * @param filePath 需要遍历的文件路径
  */
 let du = (filePath) => {
-    fs.stat(filePath, (err, fileStats) => {
-        if (err) {
-            console.warn('获取文件stats失败');
-        } else {
-            if (fileStats.isFile()) {
-                console.log(filePath + "\t" + fileStats.size);
+    return new Promise((resolve, reject) => {
+        fs.stat(filePath, (err, fileStats) => {
+            if (err) {
+                console.warn(filePath, '获取文件stats失败');
+                reject(err)
+            } else {
+                if (fileStats.isFile()) {
+                    console.log(filePath + "\t" + fileStats.size);
+                    resolve(fileStats.size);
+                }
+                else if (fileStats.isDirectory()) {
+                    fs.readdir(filePath, (err, files) => {
+                        if (err) {
+                            console.warn(filePath, 'readdir失败');
+                            reject(err)
+                        } else {
+                            let dirSize = 0;
+                            let result = Promise.resolve();
+                            files.forEach((fileName) => {
+                                result = result.then(() => {
+                                    return du(path.join(filePath, fileName))
+                                    .then((size) => {
+                                        dirSize += size;
+                                    })
+                                })
+                            });
+                            result.then(() => {
+                                console.log(filePath + "\t" + dirSize);
+                                resolve(dirSize);
+                            });
+                        }
+                    });
+                }
             }
-            else if (fileStats.isDirectory()) {
-                fs.readdir(filePath, (err, files) => {
-                    if (err) {
-                        console.warn(err)
-                    } else {
-                        files.forEach((fileName) => {
-                            du(path.join(filePath, fileName));
-                        });
-                    }
-                });
-            }
-        }
+        })
     })
 }
 
