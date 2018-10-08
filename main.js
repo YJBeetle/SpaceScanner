@@ -1,15 +1,19 @@
-var express = require('express');
-var exec = require('child_process').exec;
+const express = require('express');
+const exec = require('child_process').exec;
+
+const du = require('./du');
 
 var app = express();
 
+app.get('/q', function (req, res) {
+    res.send('It works!');
+});
+
 app.use('/', express.static(__dirname + '/web'));
 
-// app.get('/', function (req, res) {
-//   res.send('It works!');
-// });
-
 app.listen(3000, function () {
-  console.log('Listening on port 3000!');
-  exec('open http://localhost:3000');
+    console.log('Listening on port 3000!');
+    exec('open http://localhost:3000');
 });
+
+du('/opt');
