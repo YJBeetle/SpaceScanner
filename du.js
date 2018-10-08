@@ -7,14 +7,14 @@ const path = require('path');
  */
 let du = (filePath) => {
     return new Promise((resolve, reject) => {
-        fs.stat(filePath, (err, fileStats) => {
+        fs.lstat(filePath, (err, fileStats) => {
             if (err) {
                 console.warn(filePath, '获取文件stats失败');
                 console.warn(err);
                 console.log(filePath + "\t" + 0);
                 resolve(0);
             } else {
-                if (fileStats.isFile()) {
+                if (fileStats.isFile()|| fileStats.isSymbolicLink()) {
                     console.log(filePath + "\t" + fileStats.size);
                     resolve(fileStats.size);
                 }
