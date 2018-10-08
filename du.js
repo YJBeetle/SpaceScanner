@@ -10,7 +10,9 @@ let du = (filePath) => {
         fs.stat(filePath, (err, fileStats) => {
             if (err) {
                 console.warn(filePath, '获取文件stats失败');
-                reject(err)
+                console.warn(err);
+                console.log(filePath + "\t" + 0);
+                resolve(0);
             } else {
                 if (fileStats.isFile()) {
                     console.log(filePath + "\t" + fileStats.size);
@@ -20,7 +22,9 @@ let du = (filePath) => {
                     fs.readdir(filePath, (err, files) => {
                         if (err) {
                             console.warn(filePath, 'readdir失败');
-                            reject(err)
+                            console.warn(err);
+                            console.log(filePath + "\t" + 0);
+                            resolve(0);
                         } else {
                             let dirSize = 0;
                             let result = Promise.resolve();
