@@ -1,3 +1,5 @@
+const PORT = 3000;
+
 const express = require('express');
 const exec = require('child_process').exec;
 
@@ -11,9 +13,9 @@ app.get('/q', function (req, res) {
 
 app.use('/', express.static(__dirname + '/web'));
 
-app.listen(3000, function () {
-    console.log('Listening on port 3000!');
-    exec('open http://localhost:3000');
+app.listen(PORT, function () {
+    console.log('Listening on port ' + PORT + '!');
+    exec('open http://localhost:' + PORT);
 });
 
 du('/opt');
