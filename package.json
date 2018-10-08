@@ -1,0 +1,14 @@
+{
+  "name": "spacescanner",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "node main.js"
+  },
+  "author": "",
+  "license": "",
+  "dependencies": {
+    "express": "^4.16.3"
+  }
+}
