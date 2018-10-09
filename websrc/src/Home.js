@@ -14,10 +14,10 @@ export default class Home extends Component {
           <CardTitle title="Disk usage" />
           <CardText>
             <p>scan your disk</p>
-            <p>
-              <Button raised primary iconEl={<FontIcon>send</FontIcon>} component={Link} to='/dustart'>Start</Button>
-            </p>
           </CardText>
+          <CardActions>
+            <Button flat primary iconEl={<FontIcon>send</FontIcon>} component={Link} to='/dustart'>Start</Button>
+          </CardActions>
         </Card>
       </div>
     );
