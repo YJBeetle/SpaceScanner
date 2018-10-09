@@ -7,16 +7,32 @@ const exec = require('child_process').exec;
 const du = require('./du');
 
 var app = express();
+let diskUsages = [];
 
 let postParserJson = (req, res, next) => {
     bodyParser.json({
         limit: '1mb',
     })(req, res, next);
 }
-app.use('/', postParserJson);   //post解析
+app.use('/', postParserJson);   //post解析,存入req.body
 
-app.post('/du/stats', function (req, res) {
+app.get('/du', function (req, res) {
     res.send('It works!');
+});
+
+app.post('/du/new', function (req, res) {
+    console(req.body);
+    newdo = new du(req.body.path);
+    newdo.start();
+    diskUsages.push(newdo);
+    return res.json('ok');
+});
+
+app.post('/du/list', function (req, res) {
+    let list = diskUsages.map((valus,index)=>{
+        return index;
+    })
+    return res.json(list);
 });
 
 app.use('/', express.static(__dirname + '/web'));
@@ -26,8 +42,3 @@ app.listen(PORT, function () {
     // exec('open http://localhost:' + PORT);
 });
 
-let duobj=new du('/opt');
-duobj.start()
-.then(()=>{
-    console.log(duobj.usageData);
-});
