@@ -32,23 +32,55 @@ class App extends Component {
               active: true,
             },
             {
-              key: '1',
+              key: '/opt',
               primaryText: '/opt',
               leftIcon: <FontIcon>insert_chart</FontIcon>,
-              onClick: () => { console.log("click 1") },
-              children: <FontIcon>keyboard_arrow_down</FontIcon>
+              nestedItems:[
+                {
+                  key: '1',
+                  primaryText: '1',
+                  leftIcon: <FontIcon>insert_drive_file</FontIcon>,
+                },
+                {
+                  key: '1',
+                  primaryText: '1',
+                  leftIcon: <FontIcon>folder</FontIcon>,
+                  nestedItems:[
+                    {
+                      key: '1',
+                      primaryText: '1',
+                      leftIcon: <FontIcon>insert_drive_file</FontIcon>,
+                    },
+                    {
+                      key: '1',
+                      primaryText: '1',
+                      leftIcon: <FontIcon>insert_link</FontIcon>,
+                    },
+                    {
+                      key: '1',
+                      primaryText: '1',
+                      leftIcon: <FontIcon>folder</FontIcon>,
+                      nestedItems:[
+                        {
+                          key: '1',
+                          primaryText: '1',
+                          leftIcon: <FontIcon>insert_drive_file</FontIcon>,
+                        },
+                      ]
+                    },
+                  ]
+                },
+              ]
             },
             {
               key: '2',
               primaryText: '/',
               leftIcon: <FontIcon>insert_chart</FontIcon>,
-              onClick: () => { console.log("click 2") },
             },
             {
               key: '3',
               primaryText: '/usr',
               leftIcon: <FontIcon>insert_chart</FontIcon>,
-              onClick: () => { console.log("click 3") },
             },
             {
               divider: true,
