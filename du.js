@@ -1,6 +1,14 @@
 const fs = require('fs');
 const path = require('path');
 
+const TYPE = {
+    ERR: -1,
+    UNKNOW: 0,
+    FILE: 1,
+    LINK: 2,
+    DIR: 3,
+}
+
 class Du {
     constructor() {
         this.usageData = {};
@@ -16,23 +24,34 @@ class Du {
      */
     du(filePath, usageData) {
         return new Promise((resolve, reject) => {
+            usageData['/type'] = TYPE.UNKNOW;
+            usageData['/size'] = -1;
             fs.lstat(filePath, (err, fileStats) => {
                 if (err) {
                     console.warn(filePath, '获取文件stats失败');
                     console.warn(err);
-                    console.log(filePath + "\t" + 0);
+                    // console.log(filePath + "\t" + 0);
+                    usageData['/type'] = TYPE.ERR;
+                    usageData['/size'] = 0;
                     resolve(0);
                 } else {
                     if (fileStats.isFile() || fileStats.isSymbolicLink()) {
-                        console.log(filePath + "\t" + fileStats.size);
+                        // console.log(filePath + "\t" + fileStats.size);
+                        if (fileStats.isFile())
+                            usageData['/type'] = TYPE.FILE;
+                        else
+                            usageData['/type'] = TYPE.LINK;
+                        usageData['/size'] = fileStats.size;
                         resolve(fileStats.size);
                     }
                     else if (fileStats.isDirectory()) {
+                        usageData['/type'] = TYPE.DIR;
                         fs.readdir(filePath, (err, files) => {
                             if (err) {
                                 console.warn(filePath, 'readdir失败');
                                 console.warn(err);
-                                console.log(filePath + "\t" + 0);
+                                // console.log(filePath + "\t" + 0);
+                                usageData['/size'] = 0;
                                 resolve(0);
                             } else {
                                 let dirSize = 0;
@@ -46,7 +65,8 @@ class Du {
                                     })
                                 });
                                 result.then(() => {
-                                    console.log(filePath + "\t" + dirSize);
+                                    // console.log(filePath + "\t" + dirSize);
+                                    usageData['/size'] = dirSize;
                                     resolve(dirSize);
                                 });
                             }
@@ -54,9 +74,6 @@ class Du {
                     }
                 }
             })
-        }).then((size) => {
-            usageData['/size'] = size;
-            return Promise.resolve(size);
         })
     }
 
