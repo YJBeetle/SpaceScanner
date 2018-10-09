@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link, IndexLink } from 'react-router';
-import { NavigationDrawer, FontIcon, Button } from 'react-md';
+import { NavigationDrawer, FontIcon, Button, CircularProgress } from 'react-md';
 
 import './App.css';
 
@@ -47,6 +47,7 @@ class App extends Component {
               component: Link,
               to: '/du/1',
               active: pathname.indexOf('/du/1') === 0,
+              children: <CircularProgress></CircularProgress>,
               nestedItems: [
                 {
                   key: '1',
