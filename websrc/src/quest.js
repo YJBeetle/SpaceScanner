@@ -8,7 +8,7 @@ const host = {
 
 let request = (path,data) => {
 	return new Promise((resolve, reject) => {
-		req = http.request(
+		let req = http.request(
 			{
 				hostname: host.hostname,
 				port: host.port,
@@ -58,8 +58,8 @@ let request = (path,data) => {
 
 export default {
 	du: {
-		new: (path) => {
-			return request('/du/new',{path: path});
+		new: (filePath) => {
+			return request('/du/new',{filePath: filePath});
 		},
 		list: () => {
 			return request('/du/list',{});

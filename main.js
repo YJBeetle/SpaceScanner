@@ -9,6 +9,17 @@ const du = require('./du');
 var app = express();
 let diskUsages = [];
 
+//允许跨域
+let acao = function (req, res, next) {
+    res.set({
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': 'X-Requested-With, Content-Type',
+        // 'Access-Control-Allow-Credentials': 'true',
+    });
+    next();
+}
+app.use('/', acao);   //全部
+
 let postParserJson = (req, res, next) => {
     bodyParser.json({
         limit: '1mb',
@@ -21,15 +32,14 @@ app.get('/du', function (req, res) {
 });
 
 app.post('/du/new', function (req, res) {
-    console(req.body);
-    newdo = new du(req.body.path);
+    newdo = new du(req.body.filePath);
     newdo.start();
     diskUsages.push(newdo);
     return res.json('ok');
 });
 
 app.post('/du/list', function (req, res) {
-    let list = diskUsages.map((valus,index)=>{
+    let list = diskUsages.map((valus, index) => {
         return index;
     })
     return res.json(list);
