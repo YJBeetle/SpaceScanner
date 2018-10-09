@@ -61,6 +61,7 @@ class Du {
                                         return this.du(path.join(filePath, fileName), usageData[fileName] = {})
                                     }).then((size) => {
                                         dirSize += size;
+                                        usageData['/size'] = dirSize;
                                         // return Promise.resolve(size);
                                     })
                                 });
