@@ -9,13 +9,24 @@ const TYPE = {
     DIR: 3,
 }
 
+const STATUS = {
+    READY: 1,
+    RUN: 2,
+    COMPLETE: 3,
+}
+
 class Du {
-    constructor() {
+    constructor(filePath) {
+        this.status = STATUS.READY;
+        this.filePath = filePath;
         this.usageData = {};
     }
 
-    start(filePath) {
-        return this.du(filePath, this.usageData[filePath] = {});
+    start() {
+        this.status = STATUS.RUN;
+        return this.du(this.filePath, this.usageData).then(() => {
+            this.status = STATUS.COMPLETE;
+        });
     }
 
     /**

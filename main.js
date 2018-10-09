@@ -26,8 +26,8 @@ app.listen(PORT, function () {
     // exec('open http://localhost:' + PORT);
 });
 
-let duobj=new du();
-duobj.start('/opt')
+let duobj=new du('/opt');
+duobj.start()
 .then(()=>{
     console.log(duobj.usageData);
 });
