@@ -11,12 +11,12 @@ class App extends Component {
         navItems={
           [
             {
-              primaryText: 'Space scan',
+              primaryText: 'Disk usage statistics',
               subheader: true,
             },
             {
               key: 'start',
-              primaryText: 'Start new scan',
+              primaryText: 'Start',
               leftIcon: <FontIcon>send</FontIcon>,
               onClick: () => { console.log("click start") },
               active: true,
