@@ -35,12 +35,12 @@ app.post('/du/new', function (req, res) {
     newdo = new du(req.body.filePath);
     newdo.start();
     diskUsages.push(newdo);
-    return res.json('ok');
+    return res.json(diskUsages.length - 1);
 });
 
 app.post('/du/list', function (req, res) {
     let list = diskUsages.map((valus, index) => {
-        return index;
+        return valus.filePath;
     })
     return res.json(list);
 });

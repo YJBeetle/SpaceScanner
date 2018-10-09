@@ -10,7 +10,19 @@ export default class Page1 extends Component {
           <CardTitle title="Disk usage statistics" />
           <CardText>
             <TextField id="path" label="Path" lineDirection="center" placeholder="/" onChange={(v) => { this.filePath = v }} />
-            <Button raised primary iconEl={<FontIcon>send</FontIcon>} onClick={() => { quest.du.new(this.filePath).then((r) => { console.log(r) }) }}>Run</Button>
+            <Button raised primary iconEl={<FontIcon>send</FontIcon>} onClick={() => {
+              quest.du.new(this.filePath)
+                .then((r) => {
+                  console.log(r);
+
+
+                  
+                  return quest.du.list();
+                })
+                .then((r) => {
+                  console.log(r);
+                })
+            }}>Run</Button>
           </CardText>
         </Card>
       </div>
