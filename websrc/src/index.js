@@ -20,9 +20,9 @@ WebFontLoader.load({
 ReactDOM.render(
   <Router history={browserHistory}>
     <Route path="/" component={App}>
-      <IndexRoute component={Home} />
-      <Route path="dustart" component={DuStart} />
-      <Route path="du/*" component={Du} />
+      <IndexRoute component={Home} title="Welcome" />
+      <Route path="/dustart" component={DuStart} title="Start" />
+      <Route path="/du/:duId" component={Du} title="Disk usage" />
     </Route>
   </Router>,
   document.getElementById('root')

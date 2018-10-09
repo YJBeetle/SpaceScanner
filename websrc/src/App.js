@@ -13,8 +13,8 @@ class App extends Component {
 
     return (
       <NavigationDrawer
-        drawerTitle={<div onClick={() => { console.log("click title") }}>Space Scanner</div>}
-        toolbarTitle="Welcome"
+        drawerTitle={<div onClick={() => { console.log(this.props) }}>Space Scanner</div>}
+        toolbarTitle={this.props.params.duId || children.props.route.title || "Space Scanner"}
         navItems={
           [
             {
