@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
 import { Link, IndexLink } from 'react-router';
-import { NavigationDrawer, Button, FontIcon, Card, CardTitle, CardText, CardActions } from 'react-md';
-import './App.css';
+import { NavigationDrawer, FontIcon } from 'react-md';
 
-function isActive(to, path) {
-  return to === path;
-}
+import './App.css';
 
 class App extends Component {
   render() {
@@ -26,7 +23,7 @@ class App extends Component {
               leftIcon: <FontIcon>home</FontIcon>,
               component: IndexLink,
               to: '/',
-              active: isActive('/', pathname),
+              active: '/' === pathname,
             },
             {
               divider: true,
@@ -40,21 +37,27 @@ class App extends Component {
               primaryText: 'Start',
               leftIcon: <FontIcon>send</FontIcon>,
               component: Link,
-              to: '/page-1',
-              active: isActive('/page-1', pathname),
+              to: '/dustart',
+              active: '/dustart' === pathname,
             },
             {
               key: '/opt',
               primaryText: '/opt',
               leftIcon: <FontIcon>insert_chart</FontIcon>,
               component: Link,
-              to: '/page-2',
-              active: isActive('/page-2', pathname),
+              to: '/du/1',
+              active: pathname.indexOf('/du/1') === 0,
               nestedItems: [
                 {
                   key: '1',
                   primaryText: '1',
                   leftIcon: <FontIcon>insert_drive_file</FontIcon>,
+                  onClick: () => {
+                    console.log("click");
+                    var newUrl = "/du/1/1";
+                    window.history.pushState(null, null, newUrl);
+                  },
+                  active: pathname.indexOf('/du/1/1') === 0,
                 },
                 {
                   key: '2',
@@ -92,16 +95,16 @@ class App extends Component {
               primaryText: '/',
               leftIcon: <FontIcon>insert_chart</FontIcon>,
               component: Link,
-              to: '/page-2',
-              active: isActive('/page-2', pathname),
+              to: '/du/2',
+              active: pathname.indexOf('/du/2') === 0,
             },
             {
               key: '/usr',
               primaryText: '/usr',
               leftIcon: <FontIcon>insert_chart</FontIcon>,
               component: Link,
-              to: '/page-2',
-              active: isActive('/page-2', pathname),
+              to: '/du/3',
+              active: pathname.indexOf('/du/3') === 0,
             },
             {
               divider: true,
