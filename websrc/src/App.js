@@ -1,9 +1,19 @@
 import React, { Component } from 'react';
+import { Link, IndexLink } from 'react-router';
 import { NavigationDrawer, Button, FontIcon, Card, CardTitle, CardText, CardActions } from 'react-md';
 import './App.css';
 
+function isActive(to, path) {
+  return to === path;
+}
+
 class App extends Component {
   render() {
+    const {
+      location: { pathname },
+      children,
+    } = this.props;
+
     return (
       <NavigationDrawer
         drawerTitle={<div onClick={() => { console.log("click title") }}>Space Scanner</div>}
@@ -14,8 +24,9 @@ class App extends Component {
               key: 'home',
               primaryText: 'Home',
               leftIcon: <FontIcon>home</FontIcon>,
-              onClick: () => { console.log("click start") },
-              active: true,
+              component: IndexLink,
+              to: '/',
+              active: isActive('/', pathname),
             },
             {
               divider: true,
@@ -28,42 +39,46 @@ class App extends Component {
               key: 'start',
               primaryText: 'Start',
               leftIcon: <FontIcon>send</FontIcon>,
-              onClick: () => { console.log("click start") },
-              active: true,
+              component: Link,
+              to: '/page-1',
+              active: isActive('/page-1', pathname),
             },
             {
               key: '/opt',
               primaryText: '/opt',
               leftIcon: <FontIcon>insert_chart</FontIcon>,
-              nestedItems:[
+              component: Link,
+              to: '/page-2',
+              active: isActive('/page-2', pathname),
+              nestedItems: [
                 {
                   key: '1',
                   primaryText: '1',
                   leftIcon: <FontIcon>insert_drive_file</FontIcon>,
                 },
                 {
-                  key: '1',
-                  primaryText: '1',
+                  key: '2',
+                  primaryText: '2',
                   leftIcon: <FontIcon>folder</FontIcon>,
-                  nestedItems:[
+                  nestedItems: [
                     {
-                      key: '1',
-                      primaryText: '1',
+                      key: '21',
+                      primaryText: '21',
                       leftIcon: <FontIcon>insert_drive_file</FontIcon>,
                     },
                     {
-                      key: '1',
-                      primaryText: '1',
+                      key: '22',
+                      primaryText: '22',
                       leftIcon: <FontIcon>insert_link</FontIcon>,
                     },
                     {
-                      key: '1',
-                      primaryText: '1',
+                      key: '221',
+                      primaryText: '221',
                       leftIcon: <FontIcon>folder</FontIcon>,
-                      nestedItems:[
+                      nestedItems: [
                         {
-                          key: '1',
-                          primaryText: '1',
+                          key: '2211',
+                          primaryText: '2211',
                           leftIcon: <FontIcon>insert_drive_file</FontIcon>,
                         },
                       ]
@@ -73,14 +88,20 @@ class App extends Component {
               ]
             },
             {
-              key: '2',
+              key: '/',
               primaryText: '/',
               leftIcon: <FontIcon>insert_chart</FontIcon>,
+              component: Link,
+              to: '/page-2',
+              active: isActive('/page-2', pathname),
             },
             {
-              key: '3',
+              key: '/usr',
               primaryText: '/usr',
               leftIcon: <FontIcon>insert_chart</FontIcon>,
+              component: Link,
+              to: '/page-2',
+              active: isActive('/page-2', pathname),
             },
             {
               divider: true,
@@ -89,23 +110,7 @@ class App extends Component {
         }
       // toolbarActions={<Button icon onClick={}>close</Button>}
       >
-        <div className="App">
-          <Button raised primary iconEl={<FontIcon>home</FontIcon>}>Button</Button>
-
-          <div className="md-grid">
-            <Card className="md-cell">
-              <CardTitle title="Hello, World!" />
-              <CardText>
-                Lorem ipsum... pretend more ...
-          </CardText>
-              <CardActions>
-                <Button flat label="Action 1" />
-                <Button flat label="Action 2" />
-              </CardActions>
-            </Card>
-          </div>
-
-        </div>
+        {children ? React.cloneElement(children, { key: pathname }) : null}
       </NavigationDrawer>
     );
   }
