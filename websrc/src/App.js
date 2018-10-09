@@ -11,6 +11,16 @@ class App extends Component {
         navItems={
           [
             {
+              key: 'home',
+              primaryText: 'Home',
+              leftIcon: <FontIcon>home</FontIcon>,
+              onClick: () => { console.log("click start") },
+              active: true,
+            },
+            {
+              divider: true,
+            },
+            {
               primaryText: 'Disk usage statistics',
               subheader: true,
             },
@@ -26,6 +36,7 @@ class App extends Component {
               primaryText: '/opt',
               leftIcon: <FontIcon>insert_chart</FontIcon>,
               onClick: () => { console.log("click 1") },
+              children: <FontIcon>keyboard_arrow_down</FontIcon>
             },
             {
               key: '2',
