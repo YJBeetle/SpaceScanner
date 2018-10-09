@@ -22,7 +22,7 @@ ReactDOM.render(
     <Route path="/" component={App}>
       <IndexRoute component={Home} title="Welcome" />
       <Route path="/dustart" component={DuStart} title="Start" />
-      <Route path="/du/:duId" component={Du} title="Disk usage" />
+      <Route path="/du/:duId*" component={Du} title="Disk usage" />
     </Route>
   </Router>,
   document.getElementById('root')

@@ -11,16 +11,15 @@ export default class Page1 extends Component {
           <CardText>
             <TextField id="path" label="Path" lineDirection="center" placeholder="/" onChange={(v) => { this.filePath = v }} />
             <Button raised primary iconEl={<FontIcon>send</FontIcon>} onClick={() => {
+              let newId;
               quest.du.new(this.filePath)
                 .then((r) => {
-                  console.log(r);
-
-
-                  
+                  newId=r;
                   return quest.du.list();
                 })
                 .then((r) => {
-                  console.log(r);
+                  console.log(r);//刷新列表
+                  this.props.router.push('/du/' + newId)
                 })
             }}>Run</Button>
           </CardText>
