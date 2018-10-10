@@ -36,11 +36,11 @@ app.post('/du/new', (req, res) => {
     newdo = new du(req.body.filePath);
     newdo.start();
     diskUsages.push(newdo);
-    return res.json(newdo.getBase());
+    return res.json(newdo.getInfo());
 });
 
-app.post('/du/getBase', (req, res) => {
-    return res.json(diskUsages.map(valus => valus.getBase()));
+app.post('/du/getInfo', (req, res) => {
+    return res.json(diskUsages.map(valus => valus.getInfo()));
 });
 
 //static

@@ -89,7 +89,7 @@ class Du {
         })
     }
 
-    getBase() {
+    getInfo() {
         return {
             status:this.status,
             filePath:this.filePath,

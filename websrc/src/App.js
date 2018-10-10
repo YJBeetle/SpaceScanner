@@ -6,6 +6,7 @@ import Navigation from './Navigation';
 import Home from './Home';
 import DuStart from './DuStart';
 import Du from './Du';
+import quest from './quest';
 
 class App extends Component {
     constructor(props) {
@@ -13,10 +14,13 @@ class App extends Component {
         this.state = {
             diskUsages: [],
         };
+        quest.du.getInfo()
+        // .then((du)=>console.log(du));
+        .then((du) => this.setState({diskUsages:du}));
     }
 
-    handleNewDiskUsages = (obj) => new Promise((resolve, reject) => {
-        this.setState({ diskUsages: [...this.state.diskUsages, obj] }, () => { resolve(this.state.diskUsages.length - 1) });
+    handleNewDiskUsages = (newdu) => new Promise((resolve, reject) => {
+        this.setState({ diskUsages: [...this.state.diskUsages, newdu] }, () => { resolve(this.state.diskUsages.length - 1) });
     })
 
     render() {
