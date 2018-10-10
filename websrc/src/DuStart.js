@@ -14,13 +14,8 @@ export default class Page1 extends Component {
                         <Route component={(match) => (
                             <Button raised primary iconEl={<FontIcon>send</FontIcon>} onClick={() => {
                                 quest.du.new(this.filePath)
-                                    .then((newdu) => {
-                                        console.log(newdu);
-                                        console.log(match);
-                                        this.props.newDiskUsages(newdu, () => { }).then((id) => {
-                                            match.history.push('/du/' + id);
-                                        })
-                                    })
+                                    .then((newdu) => this.props.newDiskUsages(newdu))
+                                    .then((id) => match.history.push('/du/' + id))
                             }}>Run</Button>
                         )} />;
                     </CardText>
