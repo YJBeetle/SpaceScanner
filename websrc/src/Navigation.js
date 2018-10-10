@@ -13,7 +13,7 @@ export default class Navigation extends Component {
                         <Switch>
                             <Route exact path="/" component={() => (<div>Welcome</div>)} />
                             <Route path="/dustart" component={() => (<div>Start</div>)} />
-                            <Route path="/du/:id" render={({ match }) => (<div>{this.props.diskUsages[match.params.id] ? this.props.diskUsages[match.params.id].filePath : 'Disk usage'}</div>)} />
+                            <Route path="/du/:id" render={({ match }) => (<div>{this.props.diskUsages[parseInt(match.params.id)] ? this.props.diskUsages[parseInt(match.params.id)].filePath : 'Disk usage'}</div>)} />
                             <Route path="" component={() => (<div>Space Scanner</div>)} />
                         </Switch>
                     </div>
@@ -54,7 +54,7 @@ export default class Navigation extends Component {
                                     component={Link}
                                     to={'/du/' + index}
                                 />
-                            )}</Route> : <div></div>
+                            )}</Route> : <div key={'du-' + index}></div>
                         )),
                         // {
                         //     key: '/opt',
@@ -134,14 +134,16 @@ export default class Navigation extends Component {
                 toolbarActions={
                     <div>
                         <Route path="/du/:id" component={({ match, history }) => (
-                            <Button icon onClick={() =>
-                                quest.du.free(match.params.id).then((nextid) => {
-                                    if (nextid != -1)
+                            <Button icon onClick={() => {
+                                let id = parseInt(match.params.id);
+                                quest.du.free(id).then((nextid) => {
+                                    if (nextid !== -1)
                                         history.push('/du/' + nextid);
                                     else
                                         history.push('/dustart');
-                                    this.props.deleteDiskUsages(match.params.id);
+                                    this.props.deleteDiskUsages(id);
                                 })
+                            }
                             }>close</Button>
                         )} />
                     </div>

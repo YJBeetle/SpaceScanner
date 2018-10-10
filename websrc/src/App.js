@@ -23,7 +23,7 @@ class App extends Component {
     })
 
     handleDeleteDiskUsages = (delId) => {
-        this.setState({ diskUsages: this.state.diskUsages.map((value, index) => (index == delId) ? null : value) });
+        this.setState({ diskUsages: this.state.diskUsages.map((value, index) => (index === delId) ? null : value) });
     }
 
     render() {
