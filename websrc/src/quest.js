@@ -6,7 +6,7 @@ const host = {
 	port: 4000,
 };
 
-let request = (path,data) => {
+let request = (path, data) => {
 	return new Promise((resolve, reject) => {
 		let req = http.request(
 			{
@@ -59,10 +59,13 @@ let request = (path,data) => {
 export default {
 	du: {
 		new: (filePath) => {
-			return request('/du/new',{filePath: filePath});
+			return request('/du/new', { filePath: filePath });
 		},
 		getInfo: () => {
-			return request('/du/getInfo',{});
+			return request('/du/getInfo', {});
+		},
+		free: (id) => {
+			return request('/du/free', { id: id });
 		},
 	},
 };

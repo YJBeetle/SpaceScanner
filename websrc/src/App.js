@@ -15,18 +15,21 @@ class App extends Component {
             diskUsages: [],
         };
         quest.du.getInfo()
-        // .then((du)=>console.log(du));
-        .then((du) => this.setState({diskUsages:du}));
+            .then((du) => this.setState({ diskUsages: du }));
     }
 
     handleNewDiskUsages = (newdu) => new Promise((resolve, reject) => {
         this.setState({ diskUsages: [...this.state.diskUsages, newdu] }, () => { resolve(this.state.diskUsages.length - 1) });
     })
 
+    handleDeleteDiskUsages = (delId) => {
+        this.setState({ diskUsages: this.state.diskUsages.map((value, index) => (index == delId) ? null : value) });
+    }
+
     render() {
         return (
             <Route render={({ location }) => (
-                <Navigation diskUsages={this.state.diskUsages}>
+                <Navigation diskUsages={this.state.diskUsages} deleteDiskUsages={this.handleDeleteDiskUsages}>
                     <Switch key={location.key}>
                         <Route exact path="/" location={location} component={Home} />
                         <Route path="/dustart" location={location} component={() => (<DuStart newDiskUsages={this.handleNewDiskUsages} />)} />

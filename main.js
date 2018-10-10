@@ -43,6 +43,16 @@ app.post('/du/getInfo', (req, res) => {
     return res.json(diskUsages.map(valus => valus.getInfo()));
 });
 
+app.post('/du/free', (req, res) => {
+    let id = req.body.id;
+    delete diskUsages[id];
+    while (!diskUsages[id] && id < diskUsages.length)  //寻找下一个有效项
+        id++;
+    while (!diskUsages[id] && id >= 0)
+        id--;
+    return res.json(id);
+});
+
 //static
 app.use('/', express.static(__dirname + '/web'));
 

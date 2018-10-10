@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link, Route, Switch } from 'react-router-dom';
 import { NavigationDrawer, ListItem, FontIcon, Button, CircularProgress } from 'react-md';
+import quest from './quest';
 
 export default class Navigation extends Component {
     render() {
@@ -45,7 +46,7 @@ export default class Navigation extends Component {
                             />
                         )}</Route>,
                         ...this.props.diskUsages.map((value, index) => (
-                            <Route key={'du-' + index} path={'/du/' + index}>{({ match }) => (
+                            value ? <Route key={'du-' + index} path={'/du/' + index}>{({ match }) => (
                                 <ListItem
                                     primaryText={value.filePath}
                                     leftIcon={<FontIcon>insert_chart</FontIcon>}
@@ -53,7 +54,7 @@ export default class Navigation extends Component {
                                     component={Link}
                                     to={'/du/' + index}
                                 />
-                            )}</Route>
+                            )}</Route> : <div></div>
                         )),
                         // {
                         //     key: '/opt',
@@ -132,8 +133,16 @@ export default class Navigation extends Component {
                 }
                 toolbarActions={
                     <div>
-                        <Route path="/du/:id" render={({ match }) => (
-                            <Button icon onClick={() => { console.log("close" + match.params.id) }}>close</Button>
+                        <Route path="/du/:id" component={({ match, history }) => (
+                            <Button icon onClick={() =>
+                                quest.du.free(match.params.id).then((nextid) => {
+                                    if (nextid != -1)
+                                        history.push('/du/' + nextid);
+                                    else
+                                        history.push('/dustart');
+                                    this.props.deleteDiskUsages(match.params.id);
+                                })
+                            }>close</Button>
                         )} />
                     </div>
                 }
