@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Router, IndexRoute, Route, browserHistory } from 'react-router';
+import { Route, Switch } from 'react-router-dom';
 
 import './App.css';
 import Navigation from './Navigation';
@@ -10,13 +10,15 @@ import Du from './Du';
 class App extends Component {
     render() {
         return (
-            <Router history={browserHistory}>
-                <Route path="/" component={Navigation}>
-                    <IndexRoute component={Home} title="Welcome" />
-                    <Route path="/dustart" component={DuStart} title="Start" />
-                    <Route path="/du/:duId*" component={Du} title="Disk usage" />
-                </Route>
-            </Router>
+            <Route render={({ location }) => (
+                <Navigation>
+                    <Switch key={location.key}>
+                        <Route exact path="/" location={location} component={Home} title="Welcome" />
+                        <Route path="/dustart" location={location} render={props => (<DuStart newdo={this.newdo} {...props} />)} title="Start" />
+                        <Route path="/du/:duId*" location={location} component={Du} title="Disk usage" />
+                    </Switch>
+                </Navigation>
+            )} />
         );
     }
 }

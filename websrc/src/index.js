@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 import WebFontLoader from 'webfontloader';
 
 import './index.css';
@@ -13,6 +14,6 @@ WebFontLoader.load({
     },
 });
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(<Router><App /></Router>, document.getElementById('root'));
 
 registerServiceWorker();

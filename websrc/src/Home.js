@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import { Button, FontIcon, Card, CardTitle, CardText, CardActions } from 'react-md';
 import './home.css';
 

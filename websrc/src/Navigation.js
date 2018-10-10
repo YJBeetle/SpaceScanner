@@ -1,28 +1,33 @@
 import React, { Component } from 'react';
-import { Link, IndexLink } from 'react-router';
-import { NavigationDrawer, FontIcon, Button, CircularProgress } from 'react-md';
+import { Link, Route, Switch } from 'react-router-dom';
+import { NavigationDrawer, ListItem, FontIcon, Button, CircularProgress } from 'react-md';
 
 export default class Navigation extends Component {
     render() {
-        const {
-            location: { pathname },
-            children,
-        } = this.props;
-
         return (
             <NavigationDrawer
                 drawerTitle={<div onClick={() => { console.log(this.props, this.props.params) }}>Space Scanner</div>}
-                toolbarTitle={this.props.params.duId || children.props.route.title || "Space Scanner"}
+                toolbarTitle={
+                    <div>
+                        <Switch>
+                            <Route exact path="/" component={() => (<div>Welcome</div>)} />
+                            <Route path="/dustart" component={() => (<div>Start</div>)} />
+                            <Route path="/du/:duId*" component={() => (<div>Disk usage</div>)} />
+                            <Route path="" component={() => (<div>Space Scanner</div>)} />
+                        </Switch>
+                    </div>
+                }
                 navItems={
                     [
-                        {
-                            key: 'home',
-                            primaryText: 'Home',
-                            leftIcon: <FontIcon>home</FontIcon>,
-                            component: IndexLink,
-                            to: '/',
-                            active: '/' === pathname,
-                        },
+                        <Route key='home' exact path={"/"}>{({ match }) => (
+                            <ListItem
+                                primaryText={'Home'}
+                                leftIcon={<FontIcon>home</FontIcon>}
+                                active={!!match}
+                                component={Link}
+                                to={'/'}
+                            />
+                        )}</Route>,
                         {
                             divider: true,
                         },
@@ -30,28 +35,29 @@ export default class Navigation extends Component {
                             primaryText: 'Disk usage statistics',
                             subheader: true,
                         },
-                        {
-                            key: 'start',
-                            primaryText: 'Start',
-                            leftIcon: <FontIcon>send</FontIcon>,
-                            component: Link,
-                            to: '/dustart',
-                            active: '/dustart' === pathname,
-                        },
+                        <Route key='start' path={"/dustart"}>{({ match }) => (
+                            <ListItem
+                                primaryText={'Start'}
+                                leftIcon={<FontIcon>send</FontIcon>}
+                                active={!!match}
+                                component={Link}
+                                to={'/dustart'}
+                            />
+                        )}</Route>,
                         {
                             key: '/opt',
                             primaryText: '/opt',
                             leftIcon: <FontIcon>insert_chart</FontIcon>,
                             component: Link,
                             to: '/du/1',
-                            active: pathname.indexOf('/du/1') === 0,
+                            
                             children: <CircularProgress></CircularProgress>,
                             nestedItems: [
                                 {
                                     key: '1',
                                     primaryText: '1',
                                     leftIcon: <FontIcon>insert_drive_file</FontIcon>,
-                                    active: pathname.indexOf('/du/1/1') === 0,
+                                    
                                     onClick: () => {
                                         console.log("click file /du/1/1");
                                     },
@@ -60,7 +66,7 @@ export default class Navigation extends Component {
                                     key: '2',
                                     primaryText: '2',
                                     leftIcon: <FontIcon>folder</FontIcon>,
-                                    active: pathname.indexOf('/du/1/2') === 0,
+                                    
                                     children: <Button icon primary onClick={() => { this.props.router.push('/du/1/2') }}>insert_chart_outlined</Button>,
                                     onClick: () => {
                                         console.log("click dir /du/1/2");
@@ -98,7 +104,7 @@ export default class Navigation extends Component {
                             leftIcon: <FontIcon>insert_chart</FontIcon>,
                             component: Link,
                             to: '/du/2',
-                            active: pathname.indexOf('/du/2') === 0,
+                            
                         },
                         {
                             key: '/usr',
@@ -106,16 +112,20 @@ export default class Navigation extends Component {
                             leftIcon: <FontIcon>insert_chart</FontIcon>,
                             component: Link,
                             to: '/du/3',
-                            active: pathname.indexOf('/du/3') === 0,
+                            
                         },
                         {
                             divider: true,
                         },
                     ]
                 }
-                toolbarActions={this.props.params.duId ? <Button icon onClick={() => { console.log("close" + this.props.params.duId) }}>close</Button> : null}
+                toolbarActions={
+                    <Route path="/du/:duId*" render={({ match }) => (
+                        <Button className="md-btn--toolbar" icon onClick={() => { console.log("close", match) }}>close</Button>
+                    )} />
+                }
             >
-                {children ? React.cloneElement(children, { key: pathname }) : null}
+                {this.props.children}
             </NavigationDrawer>
         );
     }
