@@ -131,9 +131,11 @@ export default class Navigation extends Component {
                     ]
                 }
                 toolbarActions={
-                    <Route path="/du/:id" render={({ match }) => (
-                        <Button className="md-btn--toolbar" icon onClick={() => { console.log("close" + match.params.id) }}>close</Button>
-                    )} />
+                    <div>
+                        <Route path="/du/:id" render={({ match }) => (
+                            <Button icon onClick={() => { console.log("close" + match.params.id) }}>close</Button>
+                        )} />
+                    </div>
                 }
             >
                 {this.props.children}
