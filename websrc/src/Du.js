@@ -15,7 +15,7 @@ export default class Page2 extends Component {
                         <Button className="button" flat secondary iconChildren="info">Info</Button>
                     </div>
                     <Divider />
-                    <div>
+                    <div className="dir">
                     <Chip className="folder" label="Root directory" avatar={<Avatar><FontIcon>home</FontIcon></Avatar>} /><FontIcon>navigate_next</FontIcon>
                     <Chip className="folder" label="A_Folder" avatar={<Avatar random>A</Avatar>} /><FontIcon>navigate_next</FontIcon>
                         <Chip className="folder" label="B_Folder" avatar={<Avatar random>B</Avatar>} /><FontIcon>navigate_next</FontIcon>

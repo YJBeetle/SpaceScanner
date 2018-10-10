@@ -25,6 +25,10 @@
     align-items: center;
 }
 
+.tools>.dir{
+    overflow-x: auto;
+}
+
 .tools>div>.button{
     margin: 0px;
     height: 48px;
