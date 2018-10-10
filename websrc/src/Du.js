@@ -9,10 +9,10 @@ export default class Page2 extends Component {
             <div className="du">
                 <Card className="tools">
                     <div>
-                        <Button className="button" flat primary iconChildren="find_replace">Refresh</Button>
-                        <Button className="button" flat primary iconChildren="view_stream">Less detail</Button>
-                        <Button className="button" flat primary iconChildren="view_quilt">More detail</Button>
-                        <Button className="button" flat primary iconChildren="info">Info</Button>
+                        <Button className="button" flat secondary iconChildren="find_replace">Refresh</Button>
+                        <Button className="button" flat secondary iconChildren="view_stream">Less detail</Button>
+                        <Button className="button" flat secondary iconChildren="view_quilt">More detail</Button>
+                        <Button className="button" flat secondary iconChildren="info">Info</Button>
                     </div>
                     <Divider />
                     <div>
