@@ -11,13 +11,13 @@ export default class Page1 extends Component {
                     <CardTitle title="Disk usage statistics" />
                     <CardText>
                         <TextField id="path" label="Path" lineDirection="center" placeholder="/" onChange={(v) => { this.filePath = v }} />
-                        <Route component={(match) => (
+                        <Route component={({history}) => (
                             <Button raised primary iconEl={<FontIcon>send</FontIcon>} onClick={() => {
                                 quest.du.new(this.filePath)
                                     .then((newdu) => this.props.newDiskUsages(newdu))
-                                    .then((id) => match.history.push('/du/' + id))
+                                    .then((id) => history.push('/du/' + id));
                             }}>Run</Button>
-                        )} />;
+                        )} />
                     </CardText>
                 </Card>
             </div>
