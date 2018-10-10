@@ -27,24 +27,23 @@ let postParserJson = (req, res, next) => {
 }
 app.use('/', postParserJson);   //post解析,存入req.body
 
+//du
 app.get('/du', function (req, res) {
     res.send('It works!');
 });
 
-app.post('/du/new', function (req, res) {
+app.post('/du/new', (req, res) => {
     newdo = new du(req.body.filePath);
     newdo.start();
     diskUsages.push(newdo);
-    return res.json(diskUsages.length - 1);
+    return res.json(newdo.getBase());
 });
 
-app.post('/du/list', function (req, res) {
-    let list = diskUsages.map((valus, index) => {
-        return valus.filePath;
-    })
-    return res.json(list);
+app.post('/du/getBase', (req, res) => {
+    return res.json(diskUsages.map(valus => valus.getBase()));
 });
 
+//static
 app.use('/', express.static(__dirname + '/web'));
 
 app.listen(PORT, function () {

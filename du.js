@@ -89,8 +89,11 @@ class Du {
         })
     }
 
-    getStats() {
-        return this.stats;
+    getBase() {
+        return {
+            status:this.status,
+            filePath:this.filePath,
+        };
     }
 
     getUsage(filePath) {

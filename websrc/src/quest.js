@@ -61,8 +61,8 @@ export default {
 		new: (filePath) => {
 			return request('/du/new',{filePath: filePath});
 		},
-		list: () => {
-			return request('/du/list',{});
+		getBase: () => {
+			return request('/du/getBase',null);
 		},
 	},
 };
