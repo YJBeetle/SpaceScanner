@@ -12,7 +12,7 @@ export default class Navigation extends Component {
                         <Switch>
                             <Route exact path="/" component={() => (<div>Welcome</div>)} />
                             <Route path="/dustart" component={() => (<div>Start</div>)} />
-                            <Route path="/du/:duId*" component={() => (<div>Disk usage</div>)} />
+                            <Route path="/du/:id" render={({ match }) => (<div>{this.props.diskUsages[match.params.id] ? this.props.diskUsages[match.params.id].filePath : 'Disk usage'}</div>)} />
                             <Route path="" component={() => (<div>Space Scanner</div>)} />
                         </Switch>
                     </div>
@@ -131,8 +131,8 @@ export default class Navigation extends Component {
                     ]
                 }
                 toolbarActions={
-                    <Route path="/du/:duId*" render={({ match }) => (
-                        <Button className="md-btn--toolbar" icon onClick={() => { console.log("close", match) }}>close</Button>
+                    <Route path="/du/:id" render={({ match }) => (
+                        <Button className="md-btn--toolbar" icon onClick={() => { console.log("close" + match.params.id) }}>close</Button>
                     )} />
                 }
             >
