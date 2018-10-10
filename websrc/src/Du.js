@@ -8,11 +8,11 @@ export default class Page2 extends Component {
         return (
             <div className="du">
                 <Card className="tools">
-                    <div>
-                        <Button className="button" icon secondary iconChildren="find_replace" tooltipLabel="Refresh" tooltipPosition="right">Refresh</Button>
-                        <Button className="button" icon secondary iconChildren="view_stream" tooltipLabel="Less detail" tooltipPosition="right">Less detail</Button>
-                        <Button className="button" icon secondary iconChildren="view_quilt" tooltipLabel="More detail" tooltipPosition="right">More detail</Button>
-                        <Button className="button" icon secondary iconChildren="info" tooltipLabel="Info" tooltipPosition="right">Info</Button>
+                    <div className="buttons">
+                        <Button icon secondary iconChildren="find_replace" tooltipLabel="Refresh" tooltipPosition="right">Refresh</Button>
+                        <Button icon secondary iconChildren="view_stream" tooltipLabel="Less detail" tooltipPosition="right">Less detail</Button>
+                        <Button icon secondary iconChildren="view_quilt" tooltipLabel="More detail" tooltipPosition="right">More detail</Button>
+                        <Button icon secondary iconChildren="info" tooltipLabel="Info" tooltipPosition="right">Info</Button>
                     </div>
                     <Divider />
                     <div className="dir">

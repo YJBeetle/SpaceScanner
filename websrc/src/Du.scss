@@ -25,6 +25,10 @@
     align-items: center;
 }
 
+.tools>.buttons{
+    flex-wrap: wrap;
+}
+
 .tools>.dir{
     overflow-x: auto;
 }
