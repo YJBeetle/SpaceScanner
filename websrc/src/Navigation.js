@@ -6,7 +6,7 @@ export default class Navigation extends Component {
     render() {
         return (
             <NavigationDrawer
-                drawerTitle={<div onClick={() => { console.log(this.props, this.props.params) }}>Space Scanner</div>}
+                drawerTitle={<div onClick={() => { console.log(this.props) }}>Space Scanner</div>}
                 toolbarTitle={
                     <div>
                         <Switch>
@@ -44,76 +44,87 @@ export default class Navigation extends Component {
                                 to={'/dustart'}
                             />
                         )}</Route>,
-                        {
-                            key: '/opt',
-                            primaryText: '/opt',
-                            leftIcon: <FontIcon>insert_chart</FontIcon>,
-                            component: Link,
-                            to: '/du/1',
-                            
-                            children: <CircularProgress></CircularProgress>,
-                            nestedItems: [
-                                {
-                                    key: '1',
-                                    primaryText: '1',
-                                    leftIcon: <FontIcon>insert_drive_file</FontIcon>,
-                                    
-                                    onClick: () => {
-                                        console.log("click file /du/1/1");
-                                    },
-                                },
-                                {
-                                    key: '2',
-                                    primaryText: '2',
-                                    leftIcon: <FontIcon>folder</FontIcon>,
-                                    
-                                    children: <Button icon primary onClick={() => { this.props.router.push('/du/1/2') }}>insert_chart_outlined</Button>,
-                                    onClick: () => {
-                                        console.log("click dir /du/1/2");
-                                    },
-                                    nestedItems: [
-                                        {
-                                            key: '21',
-                                            primaryText: '21',
-                                            leftIcon: <FontIcon>insert_drive_file</FontIcon>,
-                                        },
-                                        {
-                                            key: '22',
-                                            primaryText: '22',
-                                            leftIcon: <FontIcon>insert_link</FontIcon>,
-                                        },
-                                        {
-                                            key: '221',
-                                            primaryText: '221',
-                                            leftIcon: <FontIcon>folder</FontIcon>,
-                                            nestedItems: [
-                                                {
-                                                    key: '2211',
-                                                    primaryText: '2211',
-                                                    leftIcon: <FontIcon>insert_drive_file</FontIcon>,
-                                                },
-                                            ]
-                                        },
-                                    ]
-                                },
-                            ]
-                        },
-                        {
-                            key: '/',
-                            primaryText: '/',
-                            leftIcon: <FontIcon>insert_chart</FontIcon>,
-                            component: Link,
-                            to: '/du/2',
-                            
-                        },
-                        {
-                            key: '/usr',
-                            primaryText: '/usr',
-                            leftIcon: <FontIcon>insert_chart</FontIcon>,
-                            component: Link,
-                            to: '/du/3',
-                            
-                        },
+                        ...this.props.diskUsages.map((value, index) => (
+                            <Route key={'du-' + index} path={'/du/' + index}>{({ match }) => (
+                                <ListItem
+                                    primaryText={value.filePath}
+                                    leftIcon={<FontIcon>insert_chart</FontIcon>}
+                                    active={!!match}
+                                    component={Link}
+                                    to={'/du/' + index}
+                                />
+                            )}</Route>
+                        )),
+                        // {
+                        //     key: '/opt',
+                        //     primaryText: '/opt',
+                        //     leftIcon: <FontIcon>insert_chart</FontIcon>,
+                        //     component: Link,
+                        //     to: '/du/1',
+
+                        //     children: <CircularProgress></CircularProgress>,
+                        //     nestedItems: [
+                        //         {
+                        //             key: '1',
+                        //             primaryText: '1',
+                        //             leftIcon: <FontIcon>insert_drive_file</FontIcon>,
+
+                        //             onClick: () => {
+                        //                 console.log("click file /du/1/1");
+                        //             },
+                        //         },
+                        //         {
+                        //             key: '2',
+                        //             primaryText: '2',
+                        //             leftIcon: <FontIcon>folder</FontIcon>,
+
+                        //             children: <Button icon primary onClick={() => { this.props.router.push('/du/1/2') }}>insert_chart_outlined</Button>,
+                        //             onClick: () => {
+                        //                 console.log("click dir /du/1/2");
+                        //             },
+                        //             nestedItems: [
+                        //                 {
+                        //                     key: '21',
+                        //                     primaryText: '21',
+                        //                     leftIcon: <FontIcon>insert_drive_file</FontIcon>,
+                        //                 },
+                        //                 {
+                        //                     key: '22',
+                        //                     primaryText: '22',
+                        //                     leftIcon: <FontIcon>insert_link</FontIcon>,
+                        //                 },
+                        //                 {
+                        //                     key: '221',
+                        //                     primaryText: '221',
+                        //                     leftIcon: <FontIcon>folder</FontIcon>,
+                        //                     nestedItems: [
+                        //                         {
+                        //                             key: '2211',
+                        //                             primaryText: '2211',
+                        //                             leftIcon: <FontIcon>insert_drive_file</FontIcon>,
+                        //                         },
+                        //                     ]
+                        //                 },
+                        //             ]
+                        //         },
+                        //     ]
+                        // },
+                        // {
+                        //     key: '/',
+                        //     primaryText: '/',
+                        //     leftIcon: <FontIcon>insert_chart</FontIcon>,
+                        //     component: Link,
+                        //     to: '/du/2',
+
+                        // },
+                        // {
+                        //     key: '/usr',
+                        //     primaryText: '/usr',
+                        //     leftIcon: <FontIcon>insert_chart</FontIcon>,
+                        //     component: Link,
+                        //     to: '/du/3',
+
+                        // },
                         {
                             divider: true,
                         },

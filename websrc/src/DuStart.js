@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Route } from 'react-router-dom';
 import { Button, FontIcon, Card, CardTitle, CardText, TextField } from 'react-md';
 import quest from './quest';
 
@@ -10,14 +11,18 @@ export default class Page1 extends Component {
                     <CardTitle title="Disk usage statistics" />
                     <CardText>
                         <TextField id="path" label="Path" lineDirection="center" placeholder="/" onChange={(v) => { this.filePath = v }} />
-                        <Button raised primary iconEl={<FontIcon>send</FontIcon>} onClick={() => {
-                            quest.du.new(this.filePath)
-                                .then((newdu) => {
-                                    console.log(newdu);
-                                    console.log(this.props);
-                                    this.props.router.push('/du/1');
-                                })
-                        }}>Run</Button>
+                        <Route component={(match) => (
+                            <Button raised primary iconEl={<FontIcon>send</FontIcon>} onClick={() => {
+                                quest.du.new(this.filePath)
+                                    .then((newdu) => {
+                                        console.log(newdu);
+                                        console.log(match);
+                                        this.props.newDiskUsages(newdu, () => { }).then((id) => {
+                                            match.history.push('/du/' + id);
+                                        })
+                                    })
+                            }}>Run</Button>
+                        )} />;
                     </CardText>
                 </Card>
             </div>

@@ -8,14 +8,25 @@ import DuStart from './DuStart';
 import Du from './Du';
 
 class App extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            diskUsages: [],
+        };
+    }
+
+    handleNewDiskUsages = (obj) => new Promise((resolve, reject) => {
+        this.setState({ diskUsages: [...this.state.diskUsages, obj] }, () => { resolve(this.state.diskUsages.length - 1) });
+    })
+
     render() {
         return (
             <Route render={({ location }) => (
-                <Navigation>
+                <Navigation diskUsages={this.state.diskUsages}>
                     <Switch key={location.key}>
-                        <Route exact path="/" location={location} component={Home} title="Welcome" />
-                        <Route path="/dustart" location={location} render={props => (<DuStart newdo={this.newdo} {...props} />)} title="Start" />
-                        <Route path="/du/:duId*" location={location} component={Du} title="Disk usage" />
+                        <Route exact path="/" location={location} component={Home} />
+                        <Route path="/dustart" location={location} component={() => (<DuStart newDiskUsages={this.handleNewDiskUsages} />)} />
+                        <Route path="/du" location={location} component={Du} />
                     </Switch>
                 </Navigation>
             )} />
