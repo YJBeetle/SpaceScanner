@@ -1,0 +1,37 @@
+// @import 'globals';
+.du {
+    position:absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    display: flex;
+    align-items: stretch;
+    flex-direction: column;
+}
+
+.tools{
+    margin: 8px;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.tools>div{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.tools>div>.button{
+    margin: 0px;
+    height: 48px;
+}
+.tools>div>.folder{
+    margin: 6px;
+}
+
+.space-block {
+    // background-color: blue;
+}
