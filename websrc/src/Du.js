@@ -25,7 +25,7 @@ export default class Page2 extends Component {
                 <Paper className="space">
                     <Paper className="block one">One</Paper>
                     <Paper className="block two">Two</Paper>
-                    <Paper className="block three">Three</Paper>
+                    <Paper className="block selected three">Three</Paper>
                     <Paper className="block four">Four</Paper>
                     <Paper className="block five">Five</Paper>
                     <Paper className="block six">Six</Paper>
