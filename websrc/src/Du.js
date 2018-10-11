@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, FontIcon, Card, CardTitle, CardText, TextField, Divider, Chip, Avatar } from 'react-md';
+import { Button, FontIcon, Card, CardTitle, CardText, TextField, Divider, Chip, Avatar, Paper } from 'react-md';
 
 import './Du.css';
 
@@ -22,13 +22,14 @@ export default class Page2 extends Component {
                         <Chip className="folder" label="C_Folder" avatar={<Avatar random>C</Avatar>} />
                     </div>
                 </Card>
-                <div className="space-block">
-                    test text
-                </div>
-                <div className="space-block">
-                    test text
-                </div>
-                test text
+                <Paper className="space">
+                    <Paper className="block one">One</Paper>
+                    <Paper className="block two">Two</Paper>
+                    <Paper className="block three">Three</Paper>
+                    <Paper className="block four">Four</Paper>
+                    <Paper className="block five">Five</Paper>
+                    <Paper className="block six">Six</Paper>
+                </Paper>
             </div>
         );
     }
