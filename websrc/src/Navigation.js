@@ -7,6 +7,7 @@ export default class Navigation extends Component {
     render() {
         return (
             <NavigationDrawer
+                transitionLeaveTimeout={null}
                 drawerTitle={<div onClick={() => { console.log(this.props) }}>Space Scanner</div>}
                 toolbarTitle={
                     <div>
