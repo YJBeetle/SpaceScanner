@@ -53,6 +53,11 @@ app.post('/du/free', (req, res) => {
     return res.json(id);
 });
 
+app.post('/du/usageData', (req, res) => {
+    let id = req.body.id;
+    return res.json(diskUsages[id].usageData);
+});
+
 //static
 app.use('/', express.static(__dirname + '/web'));
 

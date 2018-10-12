@@ -2,17 +2,28 @@ import React, { Component } from 'react';
 import { Button, FontIcon, Card, CardTitle, CardText, TextField, Divider, Chip, Avatar, Paper, Collapse } from 'react-md';
 
 import './Du.css';
+import quest from './quest';
 
 export default class Page2 extends Component {
     constructor(props) {
         super(props);
         this.state = {
             showDir: false,
+            usageData: {},
         };
+
         this.id = this.props.match.params.id; //从Route获得当前选择的id
-        if (!this.props.diskUsages[this.id])
+
+        if (!this.props.diskUsages[this.id]) {
             this.props.history.push('/dustart') //如果diskUsages中不存在当前的id，则跳转到dustart
-        console.log(this.props);
+            return;
+        }
+
+        quest.du.usageData(this.props.match.params.id)
+            .then((usageData) => {
+                console.log(usageData);
+                this.setState({ usageData: usageData })
+            });
     }
 
     render() {
@@ -37,7 +48,7 @@ export default class Page2 extends Component {
                     </Collapse>
                 </Card>
                 <Paper className="space">
-                    <Paper className="block one">One</Paper>
+                    <Paper className="block one" style={{ "gridColumn": "1 / 6", "gridRow": "1 / 6" }}>One</Paper>
                     <Paper className="block two">Two</Paper>
                     <Paper className="block selected three">Three</Paper>
                     <Paper className="block four">Four</Paper>

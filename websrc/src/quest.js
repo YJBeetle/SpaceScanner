@@ -67,5 +67,8 @@ export default {
 		free: (id) => {
 			return request('/du/free', { id: id });
 		},
+		usageData: (id) => {
+			return request('/du/usageData', { id: id });
+		},
 	},
 };
