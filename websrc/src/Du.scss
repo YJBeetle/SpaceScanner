@@ -25,7 +25,6 @@
 .tools>div {
     display: flex;
     flex-direction: row;
-    align-items: center;
 }
 
 .tools>.buttons {
@@ -38,6 +37,10 @@
 
 .tools>.dir>.folder {
     margin: 6px;
+}
+
+.tools>.dir>i {
+    margin: 10px 0;
 }
 
 .space {
