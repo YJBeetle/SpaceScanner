@@ -19,7 +19,7 @@ class Du {
     constructor(filePath) {
         this.status = STATUS.READY;
         this.filePath = filePath;
-        this.usageData = {};
+        this.usageData = { name: filePath };
     }
 
     start() {
@@ -35,50 +35,53 @@ class Du {
      */
     du(filePath, usageData) {
         return new Promise((resolve, reject) => {
-            usageData['/type'] = TYPE.UNKNOW;
-            usageData['/size'] = -1;
+            usageData.type = TYPE.UNKNOW;
+            usageData.size = -1;
             fs.lstat(filePath, (err, fileStats) => {
                 if (err) {
                     console.warn(filePath, '获取文件stats失败');
                     console.warn(err);
                     // console.log(filePath + "\t" + 0);
-                    usageData['/type'] = TYPE.ERR;
-                    usageData['/size'] = 0;
+                    usageData.type = TYPE.ERR;
+                    usageData.size = 0;
                     resolve(0);
                 } else {
                     if (fileStats.isFile() || fileStats.isSymbolicLink()) {
                         // console.log(filePath + "\t" + fileStats.size);
                         if (fileStats.isFile())
-                            usageData['/type'] = TYPE.FILE;
+                            usageData.type = TYPE.FILE;
                         else
-                            usageData['/type'] = TYPE.LINK;
-                        usageData['/size'] = fileStats.size;
+                            usageData.type = TYPE.LINK;
+                        usageData.size = fileStats.size;
                         resolve(fileStats.size);
                     }
                     else if (fileStats.isDirectory()) {
-                        usageData['/type'] = TYPE.DIR;
+                        usageData.type = TYPE.DIR;
+                        usageData.child = [];
                         fs.readdir(filePath, (err, files) => {
                             if (err) {
                                 console.warn(filePath, 'readdir失败');
                                 console.warn(err);
                                 // console.log(filePath + "\t" + 0);
-                                usageData['/size'] = 0;
+                                usageData.size = 0;
                                 resolve(0);
                             } else {
                                 let dirSize = 0;
                                 let result = Promise.resolve();
                                 files.forEach((fileName) => {
                                     result = result.then(() => {
-                                        return this.du(path.join(filePath, fileName), usageData[fileName] = {})
+                                        let usageDataChild = { name: fileName };
+                                        usageData.child.push(usageDataChild);
+                                        return this.du(path.join(filePath, fileName), usageDataChild);
                                     }).then((size) => {
                                         dirSize += size;
-                                        usageData['/size'] = dirSize;
+                                        usageData.size = dirSize;
                                         // return Promise.resolve(size);
                                     })
                                 });
                                 result.then(() => {
                                     // console.log(filePath + "\t" + dirSize);
-                                    usageData['/size'] = dirSize;
+                                    usageData.size = dirSize;
                                     resolve(dirSize);
                                 });
                             }
@@ -91,8 +94,8 @@ class Du {
 
     getInfo() {
         return {
-            status:this.status,
-            filePath:this.filePath,
+            status: this.status,
+            filePath: this.filePath,
         };
     }
 
