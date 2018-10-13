@@ -22,8 +22,25 @@ export default class Page2 extends Component {
         quest.du.usageData(this.props.match.params.id)
             .then((usageData) => {
                 console.log(usageData);
-                this.setState({ usageData: usageData })
+                this.setState({ usageData: usageData });
             });
+    }
+
+    makeBlock = (usageData, lastsize, allsize) => {
+        let mapLastsize = 0;
+        console.log(allsize)
+        return (
+            <Paper className="block" style={{ "gridColumn": "1 / 2", "gridRow": "" + (lastsize * 100 / allsize + 1) + "/" + (usageData.size * 100 / allsize) }}>
+                {usageData.name + " " + usageData.size}
+                {
+                    usageData.child ? usageData.child.map((value) => {
+                        let newblock = this.makeBlock(value, mapLastsize, usageData.size);
+                        mapLastsize += value.size;
+                        return newblock;
+                    }) : null
+                }
+            </Paper>
+        )
     }
 
     render() {
@@ -48,12 +65,7 @@ export default class Page2 extends Component {
                     </Collapse>
                 </Card>
                 <Paper className="space">
-                    <Paper className="block one" style={{ "gridColumn": "1 / 6", "gridRow": "1 / 6" }}>One</Paper>
-                    <Paper className="block two">Two</Paper>
-                    <Paper className="block selected three">Three</Paper>
-                    <Paper className="block four">Four</Paper>
-                    <Paper className="block five">Five</Paper>
-                    <Paper className="block six">Six</Paper>
+                    {this.makeBlock(this.state.usageData, 0, this.state.usageData.size)}
                 </Paper>
             </div>
         );
