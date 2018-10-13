@@ -4,6 +4,8 @@ import { Button, FontIcon, Card, CardTitle, CardText, TextField, Divider, Chip, 
 import './Du.css';
 import quest from './quest';
 
+const gap = 6;
+
 export default class Page2 extends Component {
     constructor(props) {
         super(props);
@@ -28,17 +30,30 @@ export default class Page2 extends Component {
 
     makeBlock = (usageData, lastsize, allsize) => {
         let mapLastsize = 0;
-        console.log(allsize)
         return (
-            <Paper className="block" style={{ "gridColumn": "1 / 2", "gridRow": "" + (lastsize * 100 / allsize + 1) + "/" + (usageData.size * 100 / allsize) }}>
-                {usageData.name + " " + usageData.size}
-                {
-                    usageData.child ? usageData.child.map((value) => {
-                        let newblock = this.makeBlock(value, mapLastsize, usageData.size);
-                        mapLastsize += value.size;
-                        return newblock;
-                    }) : null
-                }
+            <Paper className="block" style={{
+                top: `calc(${lastsize * 100 / allsize}% + ${gap}px)`,
+                height: `calc(${usageData.size * 100 / allsize}% - ${gap}px)`,
+                left: `calc(0% + ${gap}px)`,
+                right: `calc(0% + ${gap}px)`,
+            }}>
+                <div className="text">
+                    {usageData.name + " " + usageData.size}
+                </div>
+                <div className="child">
+                    {
+                        usageData.child ? (
+                            usageData.child.map((value) => {
+                                let newblock = this.makeBlock(value, mapLastsize, usageData.size);
+                                mapLastsize += value.size;
+                                return newblock;
+                            })
+                        ) : (
+                                // "File: " + usageData.name
+                                null
+                            )
+                    }
+                </div>
             </Paper>
         )
     }
