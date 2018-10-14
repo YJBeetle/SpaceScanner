@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
-import { Button, FontIcon, Card, CardTitle, CardText, TextField } from 'react-md';
+import { Button, FontIcon, Card, CardTitle, CardText, TextField, Paper } from 'react-md';
 import quest from './quest';
 
 export default class Page1 extends Component {
@@ -11,7 +11,7 @@ export default class Page1 extends Component {
                     <CardTitle title="Disk usage statistics" />
                     <CardText>
                         <TextField id="path" label="Path" lineDirection="center" placeholder="/" onChange={(v) => { this.filePath = v }} />
-                        <Route component={({history}) => (
+                        <Route component={({ history }) => (
                             <Button raised primary iconEl={<FontIcon>send</FontIcon>} onClick={() => {
                                 quest.du.new(this.filePath)
                                     .then((newdu) => this.props.newDiskUsages(newdu))

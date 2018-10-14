@@ -4,7 +4,9 @@ import { Button, FontIcon, Card, CardTitle, CardText, TextField, Divider, Chip, 
 import './Du.css';
 import quest from './quest';
 
-const gap = 6;
+const blockGap = 1;
+const blockTextHeight = 16;
+
 
 export default class Page2 extends Component {
     constructor(props) {
@@ -28,33 +30,36 @@ export default class Page2 extends Component {
             });
     }
 
-    makeBlock = (usageData, lastsize, allsize) => {
-        let mapLastsize = 0;
+    makeBlock = (usageData, lastSize, parentSize) => {
+        let mapLastSize = 0;
         return (
-            <Paper className="block" style={{
-                top: `calc(${lastsize * 100 / allsize}% + ${gap}px)`,
-                height: `calc(${usageData.size * 100 / allsize}% - ${gap}px)`,
-                left: `calc(0% + ${gap}px)`,
-                right: `calc(0% + ${gap}px)`,
-            }}>
-                <div className="text">
-                    {usageData.name + " " + usageData.size}
-                </div>
-                <div className="child">
-                    {
-                        usageData.child ? (
+            <div
+                className={`block ${usageData.type===3?"folder":"file"}`}
+                style={{
+                    top: `calc(${lastSize * 100 / parentSize}% + ${blockGap}px)`,
+                    height: `calc(${usageData.size * 100 / parentSize}% - ${blockGap}px)`,
+                    left: `calc(0% + ${blockGap}px)`,
+                    right: `calc(0% + ${blockGap}px)`,
+                }}
+            >
+                {
+                    usageData.child ? (
+                        <div className="child">{
                             usageData.child.map((value) => {
-                                let newblock = this.makeBlock(value, mapLastsize, usageData.size);
-                                mapLastsize += value.size;
-                                return newblock;
+                                let newBlock = this.makeBlock(value, mapLastSize, usageData.size);
+                                mapLastSize += value.size;
+                                return newBlock;
                             })
-                        ) : (
-                                // "File: " + usageData.name
-                                null
-                            )
-                    }
+                        }
+                        </div>
+                    ) : (
+                            null
+                        )
+                }
+                <div className="text">
+                    {`${usageData.name} - ${usageData.size} Byte`}
                 </div>
-            </Paper>
+            </div>
         )
     }
 
@@ -79,9 +84,9 @@ export default class Page2 extends Component {
                         </div>
                     </Collapse>
                 </Card>
-                <Paper className="space">
+                <Card className="space">
                     {this.makeBlock(this.state.usageData, 0, this.state.usageData.size)}
-                </Paper>
+                </Card>
             </div>
         );
     }
