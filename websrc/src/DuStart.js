@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
-import { Button, FontIcon, Card, CardTitle, CardText, TextField, Paper } from 'react-md';
+import { Button, FontIcon, Card, CardTitle, CardText, TextField } from 'react-md';
 import quest from './quest';
 
 export default class Page1 extends Component {
