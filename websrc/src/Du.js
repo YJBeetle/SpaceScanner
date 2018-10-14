@@ -7,7 +7,54 @@ import quest from './quest';
 const blockGap = 1;
 const blockTextHeight = 16;
 
+class Block extends Component {
+    render() {
+        let usageData = this.props.usageData;
+        let offset = this.props.offset;
+        let parentSize = this.props.parentSize;
+        let parentCount = this.props.parentCount;
+        let prefix = this.props.prefix;
 
+        let offsetMap = 0;  //储存遍历时每个的偏移量
+        return (
+            <div
+                className={`block ${usageData.type === 3 ? "folder" : "file"}`}
+                style={{
+                    top: `calc(${offset * 100 / parentSize}% + ${blockGap}px)`,
+                    height: `calc(${usageData.size * 100 / parentSize}% - ${blockGap}px)`,
+                    left: `calc(0% + ${blockGap}px)`,
+                    right: `calc(0% + ${blockGap}px)`,
+                }}
+            >
+                {
+                    usageData.child ? (
+                        <div className="child">{
+                            usageData.child.map((value) => {
+                                let newBlock =
+                                    <Block
+                                        usageData={value}
+                                        offset={offsetMap}
+                                        parentSize={usageData.size}
+                                        parentCount={usageData.child.length}
+                                        key={`${prefix}/${value.name}`}
+                                        prefix={`${prefix}/${value.name}`}
+                                    ></Block>
+                                offsetMap += value.size;
+                                return newBlock;
+                            })
+                        }
+                        </div>
+                    ) : (
+                            null
+                        )
+                }
+                <div className="text">
+                    {`${usageData.name} - ${usageData.size} Byte`}
+                </div>
+            </div>
+        )
+    }
+}
 
 export default class Du extends Component {
     constructor(props) {
@@ -29,40 +76,6 @@ export default class Du extends Component {
                 console.log(usageData);
                 this.setState({ usageData: usageData });
             });
-    }
-
-    makeBlock = (usageData, offset, parentSize, parentCount, prefix) => {
-        let offsetMap = 0;  //储存遍历时每个的偏移量
-        return (
-            <div
-                className={`block ${usageData.type === 3 ? "folder" : "file"}`}
-                key={`${prefix}-${usageData.name}`}
-                style={{
-                    top: `calc(${offset * 100 / parentSize}% + ${blockGap}px)`,
-                    height: `calc(${usageData.size * 100 / parentSize}% - ${blockGap}px)`,
-                    left: `calc(0% + ${blockGap}px)`,
-                    right: `calc(0% + ${blockGap}px)`,
-                }}
-            >
-                {
-                    usageData.child ? (
-                        <div className="child">{
-                            usageData.child.map((value) => {
-                                let newBlock = this.makeBlock(value, offsetMap, usageData.size, usageData.child.length, `${prefix}-${usageData.name}`);
-                                offsetMap += value.size;
-                                return newBlock;
-                            })
-                        }
-                        </div>
-                    ) : (
-                            null
-                        )
-                }
-                <div className="text">
-                    {`${usageData.name} - ${usageData.size} Byte`}
-                </div>
-            </div>
-        )
     }
 
     render() {
@@ -87,7 +100,13 @@ export default class Du extends Component {
                     </Collapse>
                 </Card>
                 <Card className="space">
-                    {this.makeBlock(this.state.usageData, 0, this.state.usageData.size, 1, "")}
+                    <Block
+                        usageData={this.state.usageData}
+                        offset={0}
+                        parentSize={this.state.usageData.size}
+                        parentCount={1}
+                        prefix="root"
+                    ></Block>
                 </Card>
             </div>
         );
