@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Button, FontIcon, Card, Divider, Chip, Avatar, Collapse } from 'react-md';
+import Measure from 'react-measure'
 
 import './Du.css';
 import quest from './quest';
@@ -9,6 +10,7 @@ const blockTextHeight = 16;
 
 class Block extends Component {
     render() {
+        let dimensions=this.props.dimensions;
         let usageData = this.props.usageData;
         let offset = this.props.offset;
         let parentSize = this.props.parentSize;
@@ -16,6 +18,7 @@ class Block extends Component {
         let prefix = this.props.prefix;
 
         let offsetMap = 0;  //储存遍历时每个的偏移量
+
         return (
             <div
                 className={`block ${usageData.type === 3 ? "folder" : "file"}`}
@@ -62,6 +65,7 @@ export default class Du extends Component {
         this.state = {
             showDir: false,
             usageData: {},
+            spaceDimensions: {},
         };
 
         this.id = this.props.match.params.id; //从Route获得当前选择的id
@@ -73,7 +77,7 @@ export default class Du extends Component {
 
         quest.du.usageData(this.props.match.params.id)
             .then((usageData) => {
-                console.log(usageData);
+                console.log("post:", usageData);
                 this.setState({ usageData: usageData });
             });
     }
@@ -99,15 +103,22 @@ export default class Du extends Component {
                         </div>
                     </Collapse>
                 </Card>
-                <Card className="space">
-                    <Block
-                        usageData={this.state.usageData}
-                        offset={0}
-                        parentSize={this.state.usageData.size}
-                        parentCount={1}
-                        prefix="root"
-                    ></Block>
-                </Card>
+                <Measure bounds onResize={contentRect => this.setState({ spaceDimensions: contentRect.bounds })} >
+                    {({ measureRef }) =>
+                        <div ref={measureRef} className="space">
+                            <Card>
+                                <Block
+                                    dimensions={this.state.spaceDimensions}
+                                    usageData={this.state.usageData}
+                                    offset={0}
+                                    parentSize={this.state.usageData.size}
+                                    parentCount={1}
+                                    prefix="root"
+                                ></Block>
+                            </Card>
+                        </div>
+                    }
+                </Measure>
             </div>
         );
     }
