@@ -30,11 +30,12 @@ export default class Page2 extends Component {
             });
     }
 
-    makeBlock = (usageData, offset, parentSize, parentCount) => {
+    makeBlock = (usageData, offset, parentSize, parentCount, prefix) => {
         let offsetMap = 0;  //储存遍历时每个的偏移量
         return (
             <div
                 className={`block ${usageData.type === 3 ? "folder" : "file"}`}
+                key={`${prefix}-${usageData.name}`}
                 style={{
                     top: `calc(${offset * 100 / parentSize}% + ${blockGap}px)`,
                     height: `calc(${usageData.size * 100 / parentSize}% - ${blockGap}px)`,
@@ -46,7 +47,7 @@ export default class Page2 extends Component {
                     usageData.child ? (
                         <div className="child">{
                             usageData.child.map((value) => {
-                                let newBlock = this.makeBlock(value, offsetMap, usageData.size, usageData.child.length);
+                                let newBlock = this.makeBlock(value, offsetMap, usageData.size, usageData.child.length, `${prefix}-${usageData.name}`);
                                 offsetMap += value.size;
                                 return newBlock;
                             })
@@ -85,7 +86,7 @@ export default class Page2 extends Component {
                     </Collapse>
                 </Card>
                 <Card className="space">
-                    {this.makeBlock(this.state.usageData, 0, this.state.usageData.size, 1)}
+                    {this.makeBlock(this.state.usageData, 0, this.state.usageData.size, 1, "")}
                 </Card>
             </div>
         );
