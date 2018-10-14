@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, FontIcon, Card, CardTitle, CardText, TextField, Divider, Chip, Avatar, Paper, Collapse } from 'react-md';
+import { Button, FontIcon, Card, Divider, Chip, Avatar, Collapse } from 'react-md';
 
 import './Du.css';
 import quest from './quest';
@@ -8,7 +8,8 @@ const blockGap = 1;
 const blockTextHeight = 16;
 
 
-export default class Page2 extends Component {
+
+export default class Du extends Component {
     constructor(props) {
         super(props);
         this.state = {

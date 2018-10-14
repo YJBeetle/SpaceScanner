@@ -3,7 +3,7 @@ import { Route } from 'react-router-dom';
 import { Button, FontIcon, Card, CardTitle, CardText, TextField } from 'react-md';
 import quest from './quest';
 
-export default class Page1 extends Component {
+export default class DuStart extends Component {
     render() {
         return (
             <div className="dustart">

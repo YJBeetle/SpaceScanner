@@ -34,7 +34,7 @@ class App extends Component {
                         <Route exact path="/" component={Home} />
                         <Route path="/dustart" component={() => (<DuStart newDiskUsages={this.handleNewDiskUsages} />)} />
                         {/* <Route path="/du/:id" component={({ match, history }) => <Du match={match} history={history} diskUsages={this.state.diskUsages} />} /> */}
-                        <Route path="/du/:id" component={({ match, history }) => (location.pathname == match.url) ? <Du match={match} history={history} diskUsages={this.state.diskUsages} /> : null} />
+                        <Route path="/du/:id" component={({ match, history }) => (location.pathname === match.url) ? <Du match={match} history={history} diskUsages={this.state.diskUsages} /> : null} />
                     </Switch>
                 </Navigation>
             )} />
