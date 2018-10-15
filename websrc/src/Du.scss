@@ -58,7 +58,7 @@
     border-style: solid;
     border-color: rgb(200, 200, 200);
     border-width: 1px;
-    transition: all .5s cubic-bezier(0.165, 0.84, 0.44, 1);
+    transition: background-color .5s cubic-bezier(0.165, 0.84, 0.44, 1);
 
     // overflow: hidden;
 }
@@ -77,6 +77,7 @@
     left: 0;
     right: 0;
     height: 16px;
+    overflow: hidden;
 
     font-size: 8px;
     line-height: 16px;      //使之垂直居中
