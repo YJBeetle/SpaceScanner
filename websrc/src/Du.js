@@ -42,10 +42,10 @@ class Block extends Component {
                                     <Block
                                         usageData={value}
                                         dimensions={{
-                                            top: brotherSize / usageData.size * (height - blockTextHeight - blockTextHeight * usageData.child.length - blockBorder * 2) + blockTextHeight * index + blockBorder,
-                                            left: blockBorder,
-                                            height: value.size / usageData.size * (height - blockTextHeight - blockTextHeight * usageData.child.length - blockBorder * 2) + blockTextHeight - blockGap,
-                                            width: width - blockGap - blockBorder * 2,
+                                            top: brotherSize / usageData.size * (height - blockTextHeight - blockGap -blockBorder - blockTextHeight * usageData.child.length - blockBorder * 2) + blockTextHeight * index,
+                                            left: blockGap,
+                                            height: value.size / usageData.size * (height - blockTextHeight - blockGap -blockBorder - blockTextHeight * usageData.child.length - blockBorder * 2) + blockTextHeight + blockBorder,
+                                            width: width - blockGap*2 - blockBorder*2,
                                         }}
                                         key={`${prefix}/${value.name}`}
                                         prefix={`${prefix}/${value.name}`}
