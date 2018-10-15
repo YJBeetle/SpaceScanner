@@ -4,6 +4,7 @@
 
 ## Install depend
 ```
+npm install
 npm run webinstall
 ```
 
