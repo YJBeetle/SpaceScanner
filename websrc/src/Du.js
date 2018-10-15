@@ -6,8 +6,8 @@ import './Du.css';
 import quest from './quest';
 
 const blockGap = 2;         //间隙
-const blockBorder = 1;      //边框粗细
-const blockTextHeight = 16; //标题高度
+const blockBorder = 1;      //边框粗细(需要和css保持一致)
+const blockTextHeight = 16; //标题高度(需要和css保持一致)
 
 class Block extends Component {
     render() {

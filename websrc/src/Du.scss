@@ -46,7 +46,7 @@
 .space {
     flex: 1 0;
     margin: 8px;
-    background-color: blanchedalmond;
+    background: #fff;
     
     position: relative;
     // overflow: hidden;
@@ -110,5 +110,5 @@
     background-color: aliceblue;
 }
 .file:hover {
-    background-color: rgb(163, 192, 255);
+    background-color: rgb(202, 219, 255);
 }

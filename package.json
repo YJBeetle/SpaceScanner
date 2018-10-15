@@ -4,7 +4,9 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "build": "cd websrc && npm run build && cp -a ./build/ ../web/",
+    "webinstall": "cd websrc && npm install",
+    "webbuild": "cd websrc && npm run build && cp -a ./build/ ../web/",
+    "webstart": "cd websrc && npm start",
     "start": "node main.js"
   },
   "author": "",

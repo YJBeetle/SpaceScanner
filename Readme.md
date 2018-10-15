@@ -2,4 +2,18 @@
 
 此程序用于图形显示磁盘空间使用情况
 
-程序开发中，现在无法正常使用
+## Install depend
+```
+npm run webinstall
+```
+
+## Build
+```
+npm run webbuild
+```
+
+## Run
+```
+npm start
+```
+And open http://localhost:4000/
