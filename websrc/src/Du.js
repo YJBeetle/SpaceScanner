@@ -5,7 +5,7 @@ import Measure from 'react-measure'
 import './Du.css';
 import quest from './quest';
 
-const blockGap = 2;         //间隙
+const blockGap = 5;         //间隙
 const blockBorder = 1;      //边框粗细(需要和css保持一致)
 const blockTextHeight = 16; //标题高度(需要和css保持一致)
 
@@ -27,12 +27,12 @@ class Block extends Component {
             //计算分割
             rows = [];
             let i = 0;
-            while (i < usageData.child.length) {
+            while (i < child.length) {
                 let row = { percent: 0, columns: [] };
                 rows.push(row);
-                while (row.percent < 0.2 && i < usageData.child.length) {
-                    let percent = usageData.child[i].size / usageData.size;
-                    let column = { percent: percent, block: usageData.child[i] }
+                while (row.percent < 0.1 && row.columns.length / child.length < 0.1 && i < child.length) {
+                    let percent = child[i].size / usageData.size;
+                    let column = { percent: percent, block: child[i] }
                     row.columns.push(column);
                     row.percent += percent;
                     i++;
