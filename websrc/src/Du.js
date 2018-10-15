@@ -11,50 +11,47 @@ const blockTextHeight = 16; //标题高度(需要和css保持一致)
 
 class Block extends Component {
     render() {
-        let dimensionsH = this.props.dimensions.height;
-        let dimensionsW = this.props.dimensions.width;
         let usageData = this.props.usageData;
-        let brotherSize = this.props.brotherSize;
-        let brotherCount = this.props.brotherCount;
-        let parentSize = this.props.parentSize;
-        let parentCount = this.props.parentCount;
+        let top = this.props.dimensions.top;
+        let left = this.props.dimensions.left;
+        let height = this.props.dimensions.height;
+        let width = this.props.dimensions.width;
         let prefix = this.props.prefix;
 
-        let brotherSizeMap = 0;  //储存遍历时兄弟累加
-        let brotherCountMap = 0;
+        let brotherSize = 0;  //用于储存遍历时兄弟累加
 
         //计算需要的数据
-        let top = brotherSize / parentSize * (dimensionsH - blockTextHeight * parentCount - blockBorder * 2) + blockTextHeight * brotherCount;
-        let height = usageData.size / parentSize * (dimensionsH - blockTextHeight * parentCount - blockBorder * 2) + blockTextHeight - blockGap;
+        // let top = ;
+        // let height = ;
 
         return (
             <div
                 className={`block ${usageData.type === 3 ? "folder" : "file"}`}
                 style={{
                     top: `${top}px`,
+                    left: `${left}px`,
                     height: `${height}px`,
-                    left: `${blockGap}px`,
-                    right: `${blockGap}px`,
+                    width: `${width}px`,
                 }}
             >
                 {
                     usageData.child ? (
                         <div className="child">{
-                            usageData.child.map((value) => {
+                            usageData.child.map((value, index) => {
                                 let newBlock = (
                                     <Block
                                         usageData={value}
-                                        brotherSize={brotherSizeMap}
-                                        brotherCount={brotherCountMap}
-                                        parentSize={usageData.size}
-                                        parentCount={usageData.child.length}
+                                        dimensions={{
+                                            top: brotherSize / usageData.size * (height - blockTextHeight - blockTextHeight * usageData.child.length - blockBorder * 2) + blockTextHeight * index + blockBorder,
+                                            left: blockBorder,
+                                            height: value.size / usageData.size * (height - blockTextHeight - blockTextHeight * usageData.child.length - blockBorder * 2) + blockTextHeight - blockGap,
+                                            width: width - blockGap - blockBorder * 2,
+                                        }}
                                         key={`${prefix}/${value.name}`}
                                         prefix={`${prefix}/${value.name}`}
-                                        dimensions={{ height: height - blockTextHeight }}
                                     ></Block>
                                 );
-                                brotherSizeMap += value.size;
-                                brotherCountMap++;
+                                brotherSize += value.size;
                                 return newBlock;
                             })
                         }
@@ -120,12 +117,13 @@ export default class Du extends Component {
                         <div ref={measureRef} className="space">
                             <Block
                                 usageData={this.state.usageData}
-                                brotherSize={0}
-                                brotherCount={0}
-                                parentSize={this.state.usageData.size}
-                                parentCount={1}
+                                dimensions={{
+                                    top: 0,
+                                    left: 0,
+                                    height: this.state.spaceDimensions.height,
+                                    width: this.state.spaceDimensions.width,
+                                }}
                                 prefix="root"
-                                dimensions={{ height: this.state.spaceDimensions.height + blockBorder * 2 }}
                             ></Block>
                         </div>
                     }
