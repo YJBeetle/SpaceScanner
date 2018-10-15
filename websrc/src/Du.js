@@ -5,44 +5,56 @@ import Measure from 'react-measure'
 import './Du.css';
 import quest from './quest';
 
-const blockGap = 1;
-const blockTextHeight = 16;
+const blockGap = 2;         //间隙
+const blockBorder = 1;      //边框粗细
+const blockTextHeight = 16; //标题高度
 
 class Block extends Component {
     render() {
-        let dimensions=this.props.dimensions;
+        let dimensionsH = this.props.dimensions.height;
+        let dimensionsW = this.props.dimensions.width;
         let usageData = this.props.usageData;
-        let offset = this.props.offset;
+        let brotherSize = this.props.brotherSize;
+        let brotherCount = this.props.brotherCount;
         let parentSize = this.props.parentSize;
         let parentCount = this.props.parentCount;
         let prefix = this.props.prefix;
 
-        let offsetMap = 0;  //储存遍历时每个的偏移量
+        let brotherSizeMap = 0;  //储存遍历时兄弟累加
+        let brotherCountMap = 0;
+
+        //计算需要的数据
+        let top = brotherSize / parentSize * (dimensionsH - blockTextHeight * parentCount - blockBorder * 2) + blockTextHeight * brotherCount;
+        let height = usageData.size / parentSize * (dimensionsH - blockTextHeight * parentCount - blockBorder * 2) + blockTextHeight - blockGap;
 
         return (
             <div
                 className={`block ${usageData.type === 3 ? "folder" : "file"}`}
                 style={{
-                    top: `calc(${offset * 100 / parentSize}% + ${blockGap}px)`,
-                    height: `calc(${usageData.size * 100 / parentSize}% - ${blockGap}px)`,
-                    left: `calc(0% + ${blockGap}px)`,
-                    right: `calc(0% + ${blockGap}px)`,
+                    top: `${top}px`,
+                    height: `${height}px`,
+                    left: `${blockGap}px`,
+                    right: `${blockGap}px`,
                 }}
             >
                 {
                     usageData.child ? (
                         <div className="child">{
                             usageData.child.map((value) => {
-                                let newBlock =
+                                let newBlock = (
                                     <Block
                                         usageData={value}
-                                        offset={offsetMap}
+                                        brotherSize={brotherSizeMap}
+                                        brotherCount={brotherCountMap}
                                         parentSize={usageData.size}
                                         parentCount={usageData.child.length}
                                         key={`${prefix}/${value.name}`}
                                         prefix={`${prefix}/${value.name}`}
+                                        dimensions={{ height: height - blockTextHeight }}
                                     ></Block>
-                                offsetMap += value.size;
+                                );
+                                brotherSizeMap += value.size;
+                                brotherCountMap++;
                                 return newBlock;
                             })
                         }
@@ -106,16 +118,15 @@ export default class Du extends Component {
                 <Measure bounds onResize={contentRect => this.setState({ spaceDimensions: contentRect.bounds })} >
                     {({ measureRef }) =>
                         <div ref={measureRef} className="space">
-                            <Card>
-                                <Block
-                                    dimensions={this.state.spaceDimensions}
-                                    usageData={this.state.usageData}
-                                    offset={0}
-                                    parentSize={this.state.usageData.size}
-                                    parentCount={1}
-                                    prefix="root"
-                                ></Block>
-                            </Card>
+                            <Block
+                                usageData={this.state.usageData}
+                                brotherSize={0}
+                                brotherCount={0}
+                                parentSize={this.state.usageData.size}
+                                parentCount={1}
+                                prefix="root"
+                                dimensions={{ height: this.state.spaceDimensions.height + blockBorder * 2 }}
+                            ></Block>
                         </div>
                     }
                 </Measure>
