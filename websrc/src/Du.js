@@ -12,18 +12,36 @@ const blockTextHeight = 16; //标题高度(需要和css保持一致)
 class Block extends Component {
     render() {
         let usageData = this.props.usageData;
+        let child = usageData.child;
         let top = this.props.dimensions.top;
         let left = this.props.dimensions.left;
         let height = this.props.dimensions.height;
         let width = this.props.dimensions.width;
         let prefix = this.props.prefix;
 
-        let brotherSize = 0;  //用于储存遍历时兄弟累加
+        let rows = null;
+        if (child) {
+            //对child从小到大排序
+            child.sort((a, b) => a.size - b.size);
 
-        //计算需要的数据
-        // let top = ;
-        // let height = ;
+            //计算分割
+            rows = [];
+            let i = 0;
+            while (i < usageData.child.length) {
+                let row = { percent: 0, columns: [] };
+                rows.push(row);
+                while (row.percent < 0.2 && i < usageData.child.length) {
+                    let percent = usageData.child[i].size / usageData.size;
+                    let column = { percent: percent, block: usageData.child[i] }
+                    row.columns.push(column);
+                    row.percent += percent;
+                    i++;
+                }
+            }
+        }
 
+        let rowBrotherPercent = 0;
+        let columnBrotherPercent = 0;
         return (
             <div
                 className={`block ${usageData.type === 3 ? "folder" : "file"}`}
@@ -35,25 +53,32 @@ class Block extends Component {
                 }}
             >
                 {
-                    usageData.child ? (
+                    child ? (
                         <div className="child">{
-                            usageData.child.map((value, index) => {
-                                let childsHeight = (height - blockTextHeight - blockBorder * 2 - blockGap - blockBorder - blockTextHeight * usageData.child.length);     //Block高度 - 自己的标题高度 - 上下边框 - 一个缝隙（上面无缝隙） - 一条边框粗细（因为内容重叠） - 所有子的标题高度累加
-                                let newBlock = (
-                                    <Block
-                                        usageData={value}
-                                        dimensions={{
-                                            top: brotherSize / usageData.size * childsHeight + blockTextHeight * index,
-                                            left: blockGap,
-                                            height: value.size / usageData.size * childsHeight + blockTextHeight + blockBorder,
-                                            width: width - blockBorder * 2 - blockGap * 2,
-                                        }}
-                                        key={`${prefix}/${value.name}`}
-                                        prefix={`${prefix}/${value.name}`}
-                                    ></Block>
-                                );
-                                brotherSize += value.size;
-                                return newBlock;
+                            rows.map((row, rowIndex) => {
+                                let childsHeight = height - blockTextHeight - blockBorder * 2 - blockGap - blockBorder - blockTextHeight * rows.length;     //Block高度 - 自己的标题高度 - 上下边框 - 一个缝隙（上面无缝隙） - 一条边框粗细（因为内容重叠） - 所有标题高度累加
+                                let childsWidth = width - blockBorder * 2 - blockGap * 2 - blockBorder;     //Block高度 - 左右边框 - 左右缝隙 - 一条边框粗细（因为内容重叠）
+                                let columns = row.columns;
+                                columnBrotherPercent = 0;
+                                let ret = columns.map((column, columnIndex) => {
+                                    let ret = (
+                                        <Block
+                                            usageData={column.block}
+                                            dimensions={{
+                                                top: rowBrotherPercent * childsHeight + blockTextHeight * rowIndex,
+                                                left: columnBrotherPercent * childsWidth + blockGap,
+                                                height: row.percent * childsHeight + blockTextHeight + blockBorder,
+                                                width: column.percent / row.percent * childsWidth + blockBorder,
+                                            }}
+                                            key={`${prefix}/${column.block.name}`}
+                                            prefix={`${prefix}/${column.block.name}`}
+                                        ></Block>
+                                    );
+                                    columnBrotherPercent += column.percent / row.percent;
+                                    return ret;
+                                })
+                                rowBrotherPercent += row.percent;
+                                return ret;
                             })
                         }
                         </div>
