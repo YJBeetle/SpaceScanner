@@ -38,14 +38,15 @@ class Block extends Component {
                     usageData.child ? (
                         <div className="child">{
                             usageData.child.map((value, index) => {
+                                let childsHeight = (height - blockTextHeight - blockBorder * 2 - blockGap - blockBorder - blockTextHeight * usageData.child.length);     //Block高度 - 自己的标题高度 - 上下边框 - 一个缝隙（上面无缝隙） - 一条边框粗细（因为内容重叠） - 所有子的标题高度累加
                                 let newBlock = (
                                     <Block
                                         usageData={value}
                                         dimensions={{
-                                            top: brotherSize / usageData.size * (height - blockTextHeight - blockGap -blockBorder - blockTextHeight * usageData.child.length - blockBorder * 2) + blockTextHeight * index,
+                                            top: brotherSize / usageData.size * childsHeight + blockTextHeight * index,
                                             left: blockGap,
-                                            height: value.size / usageData.size * (height - blockTextHeight - blockGap -blockBorder - blockTextHeight * usageData.child.length - blockBorder * 2) + blockTextHeight + blockBorder,
-                                            width: width - blockGap*2 - blockBorder*2,
+                                            height: value.size / usageData.size * childsHeight + blockTextHeight + blockBorder,
+                                            width: width - blockBorder * 2 - blockGap * 2,
                                         }}
                                         key={`${prefix}/${value.name}`}
                                         prefix={`${prefix}/${value.name}`}
